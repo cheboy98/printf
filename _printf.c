@@ -1,65 +1,64 @@
-#include <stdarg.h>
-#include <stdio.h>
-#include <unistd.h>
 #include "main.h"
 
-void print_buffer(char buffer[], int *buff_ind);
+int print_str(char *s);
 /**
- * _printf - Custom printf function
- * @format: format string.
- * Return: total chars.
+ * _printf - write to stdout
+ * @format: string to print
+ *
+ * Return: an int
  */
 int _printf(const char *format, ...)
 {
 	va_list list;
-	char buffer[BUFF_SIZE];
-	int buff_ind = 0;
-	int total_chars = 0;
-	int j;
-
-	if (format == NULL)
-		return (-1);
+	char *s, c, buf[64];
+	int num, ret_val = 0;
 
 	va_start(list, format);
-
-	for (int j = 0; format[j] != '\0'; j++)
+	if (format == NULL)
+		return (-1);
+	while (*format)
 	{
-		if (format[j] != '%')
+		if (*format == '%')
 		{
-			buffer[buff_ind++] = format[j];
-
-			if (buff_ind == BUFF_SIZE)
+			format++;
+			if (*format == '%')
+				ret_val += write(1, "%", 1);
+			else if (*format == '\0')
+				return (-1);
+			else if (*format == 'c')
 			{
-				print_buffer(buffer, &buff_ind);
-				total_chars += buff_ind;
-
+				c = va_arg(list, int);
+				ret_val += write(1, &c, 1);
+			}
+			else if (*format == 's')
+			{
+				s = va_arg(list, char *);
+				if (s == NULL)
+					s = "(null)";
+				ret_val += write(1, s, strlen(s));
+			}
+			else if (*format == 'd' || *format == 'i')
+			{
+				num = va_arg(list, int);
+				snprintf(buf, sizeof(buf), "%d", num);
+				ret_val += write(1, buf, strlen(buf));
+			}
+			else
+			{
+				ret_val += write(1, "%", 1);
+				ret_val += write(1, format, 1);
 			}
 		}
 		else
-		{
-			print_buffer(buffer, &buff_ind);
-			++j;
-			handle_print(format, &j, list, buffer, &buff_ind);
-			total_chars += buff_ind;
-		}
+			ret_val += write(1, format, 1);
+		format++;
 	}
-
-	print_buffer(buffer, &buff_ind);
-
 	va_end(list);
-
-	return (total_chars);
+	return (ret_val);
 }
-
 /**
- * print_buffer - Prints the contents of the buffer if it exist
- * @buffer: Array of characters
- * @buff_ind: The index of the next char represents its length.
+ * print_str - print a string to the stdout
+ * @s: string to print
+ *
+ * Return: 0
  */
-void print_buffer(char buffer[], int *buff_ind)
-{
-	if (*buff_ind > 0)
-		write(1, &buffer[0], *buff_ind);
-	*buff_ind = 0;
-}
-

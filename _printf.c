@@ -35,13 +35,13 @@ int _printf(const char *format, ...)
 				s = va_arg(list, char *);
 				if (s == NULL)
 					s = "(null)";
-				ret_val += write(1, s, strlen(s));
+				ret_val += write(1, s, _strlen(s));
 			}
 			else if (*format == 'd' || *format == 'i')
 			{
 				num = va_arg(list, int);
 				snprintf(buf, sizeof(buf), "%d", num);
-				ret_val += write(1, buf, strlen(buf));
+				ret_val += write(1, buf, _strlen(buf));
 			}
 			else
 			{

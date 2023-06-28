@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <stdio.h>
 
 /**
  * struct format - structure to store the format of _printf
@@ -14,7 +15,7 @@
 typedef struct _format
 {
 	char format;
-	(*f)(va_list);
+	int (*f)(va_list);
 } _format;
 
 int _printf(const char *format, ...);

@@ -20,7 +20,7 @@ int get_precision(const char *format, int *i, va_list list)
 
 	for (current_index += 1; format[current_index] != '\0'; current_index++)
 	{
-		if (is_digit(format[current_index]))
+		if (isdigit(format[current_index]))
 		{
 			precision *= 10;
 			precision += format[current_index] - '0';

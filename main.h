@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <ctype.h>
 
 /**
  * struct format - structure to store the format of _printf
@@ -19,6 +20,11 @@ typedef struct _format
 } _format;
 
 int _printf(const char *format, ...);
+
+int get_flags(const char *format, int *i);
+int get_precision(const char *format, int *i, va_list list);
+int get_size(const char *format, int *i);
+int get_width(const char *format, int *i, va_list list);
 
 int _putchar(char c);
 int _strlen(char *s);

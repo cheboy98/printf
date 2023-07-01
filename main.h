@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <ctype.h>
 
 /**
  * struct format - structure to store the format of _printf

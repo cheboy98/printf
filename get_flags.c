@@ -1,5 +1,9 @@
 #include "main.h"
 #include <stdio.h>
+#define F_MINUS 1
+#define F_PLUS 2
+#define F_ZERO 4
+#define F_HASH 8
 /**
  * get_flags - Calculates active flags
  * @format: Formatted string in which to print the arguments
@@ -10,10 +14,6 @@ int get_flags(const char *format, int *i)
 {
 	/* - + 0 # ' ' */
 	/* 1 2 4 8  16 */
-	int F_MINUS = 1;
-	int F_PLUS = 2;
-	int F_ZERO = 4;
-	int F_HASH = 8;
 	int k, current_index;
 	int flags = 0;
 	const char FLAGS_CH[] = {'-', '+', '0', '#', ' ', '\0'};
